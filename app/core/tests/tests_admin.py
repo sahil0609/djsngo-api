@@ -4,6 +4,7 @@ from django.urls import reverse
 
 
 
+
 class test_admin(TestCase):
 
     def setUp(self):
@@ -29,7 +30,22 @@ class test_admin(TestCase):
         response=self.client.get(url)
         self.assertContains(response,self.user.name)
         self.assertContains(response,self.user.email)
+        
 
+    def test_user_change_page(self):
+            ''' verify the user change page'''
+            url=reverse('admin:core_customuser_change',args=[self.user.id])
+            response=self.client.get(url)
+            self.assertEqual(response.status_code,200)
+            
+            
+    def test_create_user_page(self):
+        '''verify create user page'''
+        url=reverse('admin:core_customuser_add')
+        response=self.client.get(url)
+        self.assertEquals(response.status_code,200)
+        
+            
 
     
 
