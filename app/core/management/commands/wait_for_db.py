@@ -11,8 +11,10 @@ class Command(BaseCommand):
         db_conn=None
         
         while not db_conn:
+            conn=connections['default']
             try:
-                db_conn=connections['default']
+                conn.cursor()
+                db_conn=True
             except OperationalError:
                 self.stdout.write('sleep for 1 sec')
                 time.sleep(1)
