@@ -11,15 +11,18 @@ class Command(BaseCommand):
         db_conn=None
         
         while not db_conn:
-            conn=connections['default']
+            
             try:
+                conn=connections['default']
                 conn.cursor()
                 db_conn=True
             except OperationalError:
                 self.stdout.write('sleep for 1 sec')
                 time.sleep(1)
-            except:
+            except Exception as e:
                 self.stdout.write("something happened")
+                self.stdout.write(str(e))
+                break
                 
         print(db_conn)
         self.stdout.write(self.style.SUCCESS('Database connected'))
