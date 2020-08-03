@@ -103,7 +103,46 @@ class PrivatAPITest(TestCase):
         self.assertEqual(len(res.data),1)
         self.assertEqual(res.data[0]['name'],'my ingredient')
 
-        
+    
+    def test_tags_create(self):
+        payload={
+            "name":"vegan"
+        }
+
+        res=self.client.post(TAGS_URL,payload)
+        self.assertEqual(res.status_code,status.HTTP_201_CREATED)
+        exists=tags.objects.filter(user=self.user,name="vegan").exists()
+        self.assertTrue(exists)
+
+
+    def test_tags_empty(self):
+        payload={
+            "name":""
+        }
+
+        res=self.client.post(TAGS_URL,payload)
+        self.assertEqual(res.status_code,status.HTTP_400_BAD_REQUEST)
+
+
+
+    def test_ingredients_create(self):
+        payload={
+            "name":"vegan"
+        }
+
+        res=self.client.post(INGREDIENTS_URL,payload)
+        self.assertEqual(res.status_code,status.HTTP_201_CREATED)
+        exists=ingredients.objects.filter(user=self.user,name="vegan").exists()
+        self.assertTrue(exists)
+
+
+    def test_ingredients_empty(self):
+        payload={
+            "name":""
+        }
+
+        res=self.client.post(INGREDIENTS_URL,payload)
+        self.assertEqual(res.status_code,status.HTTP_400_BAD_REQUEST)
 
 
 
